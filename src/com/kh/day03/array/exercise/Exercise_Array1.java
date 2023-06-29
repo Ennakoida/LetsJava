@@ -83,15 +83,35 @@ public class Exercise_Array1 {
 		// 로또 번호는 6개. 로또 번호의 범위는 1 ~ 45
 		
 		Random rand = new Random(); // 난수생성
+		int num = 0;
 		int lotto[] = new int[6]; // 추첨 번호 6개
 		
 		for(int i = 0; i < lotto.length; i++) {
-			// 일단 추출부터... 
-			lotto[i] = rand.nextInt(45) + 1; // 1 ~ 45 중 난수
-
-			// 중복없이추출
+			num = rand.nextInt(45) + 1; // 1 ~ 45 중 난수
+			
+			for(int j = 0; j < lotto.length; j++) {
+				if(lotto[j] == num) {
+					num = rand.nextInt(45) + 1; // 중복 시 재추출
+					continue;
+				}
+				lotto[i] = num; 				
+			}		
 		}
 		
+		// >>>>>>>>>>>>>>>>> 오름차순 정렬하기 <<<<<<<<<<<<<
+		for(int i = 0; i < lotto.length-1; i++) {
+			for(int j = 0; j < (lotto.length-1)-i; j++) {
+				if(lotto[j] > lotto[j + 1]) {
+					int temp = lotto[j];
+					lotto[j] = lotto[j+1];
+					lotto[j+1] = temp;
+				}
+			}
+		}
+		
+		for(int i = 0; i < lotto.length; i++) {
+			System.out.print(lotto[i] + " ");
+		}
 	}
 	
 }

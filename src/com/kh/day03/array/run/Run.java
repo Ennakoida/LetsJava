@@ -16,7 +16,7 @@ public class Run {
 //		exArr.exercise1(); // Exercise_Array1 class에 있는 exercise1 사용
 //		exArr.exercise2(); // Exercise_Array1 class에 있는 exercise2 사용
 //		exArr.arrayCopyExercise();
-//		exArr.lottoExercise();
+		exArr.lottoExercise();
 		
 		Exercise_Loop exLoop = new Exercise_Loop();
 //		exLoop.forExercise1(); // Exercise_Loop class 에 있는 forExercise1 사용
@@ -26,6 +26,6 @@ public class Run {
 //		exHome1.home1Exercise6();
 		
 		Exercise_ArrayHome2 exHome2 = new Exercise_ArrayHome2();
-		exHome2.home2Exercise7();
+//		exHome2.home2Exercise7();
 	}
 }
