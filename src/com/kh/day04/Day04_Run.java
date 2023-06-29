@@ -14,6 +14,8 @@ public class Day04_Run {
 		
 		Exercise_Exception exExcept = new Exercise_Exception();
 //		exExcept.exercise1();
-		exExcept.practice2();
+//		exExcept.exercise2();
+//		exExcept.exercise3();
+		exExcept.exercise4();
 	}
 }
