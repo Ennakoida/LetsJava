@@ -83,28 +83,31 @@ public class Exercise_Array1 {
 		// 로또 번호는 6개. 로또 번호의 범위는 1 ~ 45
 		
 		Random rand = new Random(); // 난수생성
-		int num = 0;
 		int lotto[] = new int[6]; // 추첨 번호 6개
 		
 		for(int i = 0; i < lotto.length; i++) {
-			num = rand.nextInt(45) + 1; // 1 ~ 45 중 난수
+			lotto[i] = rand.nextInt(45) + 1; // 1 ~ 45 중 난수
 			
-			for(int j = 0; j < lotto.length; j++) {
-				if(lotto[j] == num) {
-					num = rand.nextInt(45) + 1; // 중복 시 재추출
-					continue;
-				}
-				lotto[i] = num; 				
+			for(int j = 0; j < i; j++) { // 넣을 값이랑 넣어진 값 비교
+				if(lotto[i] == lotto[j]) {
+					// 다시 뽑읍시다
+					i--;
+					break;
+				}			
 			}		
 		}
 		
-		// >>>>>>>>>>>>>>>>> 오름차순 정렬하기 <<<<<<<<<<<<<
+		// >>>>>>>>>>>> 오름차순 정렬 (버블정렬 이용) <<<<<<<<<<<<<
+		// for의 변수가 증가하기만 하면 돼서 쉬움
+		// 단, 안에 있는 for문의 조건식의 최대값은 감소 (- i) 해야함
+	
 		for(int i = 0; i < lotto.length-1; i++) {
 			for(int j = 0; j < (lotto.length-1)-i; j++) {
+				// 왼쪽이 크면 자리 바꾸기
 				if(lotto[j] > lotto[j + 1]) {
-					int temp = lotto[j];
-					lotto[j] = lotto[j+1];
-					lotto[j+1] = temp;
+					int temp = lotto[j]; // 왼쪽에 있는 값이 지워지기 전에 킵
+					lotto[j] = lotto[j+1]; // 오른쪽에 있는 값을 왼쪽에 대입
+					lotto[j+1] = temp; // 킵해놓은 것을 오른쪽에 대입
 				}
 			}
 		}
