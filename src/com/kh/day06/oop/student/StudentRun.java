@@ -24,7 +24,7 @@ public class StudentRun {
 					// 2차 점수 입력 : 55
 					// => 1명씩 입력받도록 하거나
 					// 2명 한꺼번에 입력받도록 하세요
-					InsertScore(stdArr);
+					insertScore(stdArr);
 					break;
 				case 2:
 					// 2. 선택 시
@@ -70,7 +70,7 @@ public class StudentRun {
 		return choice;
 	}
 	
-	public static void InsertScore(Student stdArr[]) {
+	public static void insertScore(Student stdArr[]) {
 		// 학생 이름 입력 : 일용자
 		// 1차 점수 입력 : 60
 		// 2차 점수 입력 : 55
