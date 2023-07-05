@@ -1,5 +1,9 @@
 package com.kh.todo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,6 +13,9 @@ public class ToDoRun {
 	static ToDo doneToDoArr[] = new ToDo[100]; // 완료 목록 배열
 	static int listIndex = 0; // 할일누적용 인덱스
 	static int doneIndex = 0; // 완료 배열 인덱스
+	
+	static SimpleDateFormat dtf = new SimpleDateFormat("yyyy/MM/dd");
+    static Calendar calendar = Calendar.getInstance();
 	
 	public static void main(String[] args) {
 	
@@ -69,7 +76,7 @@ public class ToDoRun {
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
 		sc.nextLine();
 		for(int i = listIndex; i < toDoArr.length; i++) {
-			System.out.print("▶ ");
+			System.out.print("▶ 할 일 : ");
 			String list = sc.nextLine();
 			
 			if(list.equals("*")) {
@@ -77,7 +84,24 @@ public class ToDoRun {
 				System.out.println();
 				break;
 			}
-			toDoArr[i] = new ToDo((listIndex + 1), list);
+			
+			System.out.print("▷▷ 마감일 (yyyy/MM/dd) : ");
+			String due = sc.nextLine();
+			
+			// 마감일 날짜 형식으로 만들어서 저장하기
+			long dueDate = 0;
+			try {
+				Date date = dtf.parse(due);
+				calendar.setTime(date);
+				dueDate = calendar.getTimeInMillis(); 
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			long today = System.currentTimeMillis(); // 오늘 날짜
+			int dDay = (int)((dueDate - today) / 1000 / 60 / 60 / 24) + 1; // d-day 계산 (일)
+			
+			toDoArr[i] = new ToDo((listIndex + 1), list, due, dDay);
 			
 			listIndex++;
 		}
@@ -95,7 +119,8 @@ public class ToDoRun {
 			if(toDoArr[i].getIndex() == 0) { // 삭제되어 값이 없으면 출력하지 않고 넘어감
 				continue;
 			}
-			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList());
+//			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList());
+			System.out.printf("%d. %s%15s\tD-%d\n", toDoArr[i].getIndex(),toDoArr[i].getList(),toDoArr[i].getDue(),toDoArr[i].getdDay());
 		}
 		
 		System.out.println();
@@ -118,10 +143,9 @@ public class ToDoRun {
 			// 선택한 할 일 삭제(초기화)
 			for(int j = 0; j < listIndex; j++) { 
 				if(toDoArr[j].getIndex() == Integer.parseInt(doneList)) {
-					doneToDoArr[doneIndex] = new ToDo(toDoArr[j].getIndex(), toDoArr[j].getList());
+					doneToDoArr[doneIndex] = new ToDo(toDoArr[j].getIndex(), toDoArr[j].getList(), toDoArr[j].getDue(), toDoArr[j].getdDay());
 					doneIndex++;
-					toDoArr[j].setIndex(0);
-					toDoArr[j].setList(null);
+					toDoArr[j] = new ToDo();
 				}			
 			}
 		}
@@ -137,7 +161,8 @@ public class ToDoRun {
 			if(toDoArr[i].getIndex() == 0) { // 삭제되어 값이 없으면 출력하지 않고 넘어감
 				continue;
 			}
-			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList());
+//			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList() + "\t\t" + toDoArr[i].getDue() + "\t" + toDoArr[i].getToday());
+			System.out.printf("%d. %s%15s\tD-%d\n", toDoArr[i].getIndex(),toDoArr[i].getList(),toDoArr[i].getDue(),toDoArr[i].getdDay());
 		}
 		System.out.println();
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
@@ -153,7 +178,8 @@ public class ToDoRun {
 		System.out.println();
 
 		for(int i = 0; i < doneIndex; i++) {
-			System.out.println("▶ " + doneToDoArr[i].getIndex() + ". " + doneToDoArr[i].getList());			
+//			System.out.println("▶ " + doneToDoArr[i].getIndex() + ". " + doneToDoArr[i].getList());	
+			System.out.printf("▶ %d. %s%15s\tD-%d\n", doneToDoArr[i].getIndex(),doneToDoArr[i].getList(),doneToDoArr[i].getDue(),doneToDoArr[i].getdDay());
 		}
 		System.out.println();
 	}
