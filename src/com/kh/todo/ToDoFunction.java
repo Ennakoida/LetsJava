@@ -29,21 +29,23 @@ public class ToDoFunction {
 	
 	public int printMenu() {
 		// TODO Auto-generated method stub
-		System.out.println("===== 할 일 기록하기 =====");
-		System.out.println();
-		System.out.println("1. 할 일 추가하기");
-		System.out.println("2. 완료한 한 일 삭제하기");
-		System.out.println("3. 남은 할 일 목록 환인하기");
-		System.out.println("4. 완료한 목록 확인하기");
-		System.out.println("5. 종료하기");
+		// http://kor.pe.kr/util/4/charmap.htm
+		System.out.println("┌─────── ◈ 할 일 기록하기 ◈ ───────┐");
+		System.out.println("│                                  │");
+		System.out.println("│    1. 할 일 추가하기             │");
+		System.out.println("│    2. 완료한 한 일 삭제하기      │");
+		System.out.println("│    3. 남은 할 일 목록 환인하기   │");
+		System.out.println("│    4. 완료한 목록 확인하기       │");
+		System.out.println("│    5. 종료하기                   │");
+		System.out.println("│                                  │");
+		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
 		System.out.print("메뉴 선택 : ");
 		int choicenum = 0;
 		try {
 			choicenum = sc.nextInt();
 		} catch (InputMismatchException e) { // 숫자 외 입력 시 예외처리
-			// >>>>>>>>> 이거 무한루프 뜨는데 왜인지 모르겠네............ <<<<<<<<<<<<
-			
+			sc.next();
 		}
 		
 		return choicenum;
@@ -52,7 +54,9 @@ public class ToDoFunction {
 	public void insertToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("===== 할 일을 추가해 주세요 =====");
+		System.out.println("┌──────────────────────────────────┐");
+		System.out.println("│     ◈ 할 일을 추가해 주세요 ◈    │");
+		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
 		sc.nextLine();
@@ -91,7 +95,9 @@ public class ToDoFunction {
 	public void deleteToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("===== 완료한 할 일을 적어주세요 =====");
+		System.out.println("┌──────────────────────────────────┐");
+		System.out.println("│   ◈ 완료한 할 일을 적어주세요 ◈  │");
+		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
 		
 		// 저장된 할 일 목록 출력
@@ -135,7 +141,9 @@ public class ToDoFunction {
 	public void showLeftToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("===== 남은 할 일 목록 =====");
+		System.out.println("┌──────────────────────────────────┐");
+		System.out.println("│        ◈ 남은 할 일 목록 ◈       │");
+		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
 		System.out.println("할 일 목록 : ");
 		for(int i = 0; i < listIndex; i++) { 
@@ -153,7 +161,9 @@ public class ToDoFunction {
 	public void showDoneToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("===== 완료한 할 일 목록 =====");
+		System.out.println("┌──────────────────────────────────┐");
+		System.out.println("│       ◈ 완료한 할 일 목록 ◈      │");
+		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
 		System.out.println();
@@ -168,7 +178,9 @@ public class ToDoFunction {
 	public void endProgram() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("===== 종료하기 =====");
+		System.out.println("┌──────────────────────────────────┐");
+		System.out.println("│           ◈ 종료하기 ◈           │");
+		System.out.println("└──────────────────────────────────┘");
 		while(true) {
 			System.out.println();
 			System.out.println("종료 시 목록이 초기화됩니다. 종료하시겠습니까? (Y/N)\n");

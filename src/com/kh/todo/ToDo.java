@@ -28,7 +28,7 @@ public class ToDo {
 		this.list = list;
 		this.due = due;
 		this.dDay = dDay;
-	}
+	}	
 
 	public int getIndex() {
 		return index;
