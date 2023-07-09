@@ -29,18 +29,18 @@ public class ToDoFunction {
 	
 	public int printMenu() {
 		// TODO Auto-generated method stub
-		// http://kor.pe.kr/util/4/charmap.htm
-		System.out.println("┌─────── ◈ 할 일 기록하기 ◈ ───────┐");
-		System.out.println("│                                  │");
-		System.out.println("│    1. 할 일 추가하기             │");
-		System.out.println("│    2. 완료한 한 일 삭제하기      │");
-		System.out.println("│    3. 남은 할 일 목록 환인하기   │");
-		System.out.println("│    4. 완료한 목록 확인하기       │");
-		System.out.println("│    5. 종료하기                   │");
-		System.out.println("│                                  │");
-		System.out.println("└──────────────────────────────────┘");
 		System.out.println();
-		System.out.print("메뉴 선택 : ");
+		System.out.println("┌───────── ◈ 할 일 기록하기 ◈ ───────────┐");
+		System.out.println("│                                        │");
+		System.out.println("│      1. 할 일 추가하기                 │");
+		System.out.println("│      2. 완료한 한 일 삭제하기          │");
+		System.out.println("│      3. 남은 할 일 목록 환인하기       │");
+		System.out.println("│      4. 완료한 할 일 목록 확인하기     │");
+		System.out.println("│      5. 종료하기                       │");
+		System.out.println("│                                        │");
+		System.out.println("└────────────────────────────────────────┘");
+		System.out.println();
+		System.out.print("▷▶ 메뉴 선택 : ");
 		int choicenum = 0;
 		try {
 			choicenum = sc.nextInt();
@@ -54,11 +54,11 @@ public class ToDoFunction {
 	public void insertToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("┌──────────────────────────────────┐");
-		System.out.println("│     ◈ 할 일을 추가해 주세요 ◈    │");
-		System.out.println("└──────────────────────────────────┘");
-		System.out.println();
+		System.out.println("┌────────────────────────────────────────┐");
+		System.out.println("│        ◈ 할 일을 추가해 주세요 ◈       │");
+		System.out.println("└────────────────────────────────────────┘");
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
+		System.out.println();
 		sc.nextLine();
 		for(int i = listIndex; i < toDoArr.length; i++) {
 			System.out.print("▶ 할 일 : ");
@@ -79,36 +79,35 @@ public class ToDoFunction {
 				Date date = trans.parse(due);
 				calendar.setTime(date);
 				dueDate = calendar.getTimeInMillis(); 
+
+				long today = System.currentTimeMillis(); // 오늘 날짜
+				int dDay = (int)((dueDate - today) / 1000 / 60 / 60 / 24) + 1; // d-day 계산 (일)
+				
+				toDoArr[i] = new ToDo((listIndex + 1), list, due, dDay);
+				
+				listIndex++;
+				
+				System.out.println();
 			} catch (ParseException e) {
-				e.printStackTrace();
+				System.out.println("마감일은 yyyy/MM/dd의 형식으로 입력해주세요.");
+				System.out.println();
+				i--;
+				continue;
 			}
 			
-			long today = System.currentTimeMillis(); // 오늘 날짜
-			int dDay = (int)((dueDate - today) / 1000 / 60 / 60 / 24) + 1; // d-day 계산 (일)
-			
-			toDoArr[i] = new ToDo((listIndex + 1), list, due, dDay);
-			
-			listIndex++;
 		}
 	}
 
 	public void deleteToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("┌──────────────────────────────────┐");
-		System.out.println("│   ◈ 완료한 할 일을 적어주세요 ◈  │");
-		System.out.println("└──────────────────────────────────┘");
+		System.out.println("┌────────────────────────────────────────┐");
+		System.out.println("│   ◈ 완료한 할 일 번호를 적어주세요 ◈   │");
+		System.out.println("└────────────────────────────────────────┘");
 		System.out.println();
 		
-		// 저장된 할 일 목록 출력
-		System.out.println("할 일 목록 : ");
-		for(int i = 0; i < listIndex; i++) { 
-			if(toDoArr[i].getIndex() == 0) { // 삭제되어 값이 없으면 출력하지 않고 넘어감
-				continue;
-			}
-//			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList());
-			System.out.printf("%d. %s%15s\tD-%d\n", toDoArr[i].getIndex(),toDoArr[i].getList(),toDoArr[i].getDue(),toDoArr[i].getdDay());
-		}
+		// 저장된 남은 할 일 목록 출력
+		restToDo();
 		
 		System.out.println();
 		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
@@ -127,13 +126,21 @@ public class ToDoFunction {
 				break;
 			}
 			
-			// 선택한 할 일 삭제(초기화)
-			for(int j = 0; j < listIndex; j++) { 
-				if(toDoArr[j].getIndex() == Integer.parseInt(doneList)) {
-					doneToDoArr[doneIndex] = new ToDo(toDoArr[j].getIndex(), toDoArr[j].getList(), toDoArr[j].getDue(), toDoArr[j].getdDay());
-					doneIndex++;
-					toDoArr[j] = new ToDo();
-				}			
+			try {
+				// 선택한 할 일 삭제(초기화)
+				for(int j = 0; j < listIndex; j++) { 
+					if(toDoArr[j].getIndex() == Integer.parseInt(doneList)) {
+						doneToDoArr[doneIndex] = new ToDo(toDoArr[j].getIndex(), toDoArr[j].getList(), toDoArr[j].getDue(), toDoArr[j].getdDay());
+						doneIndex++;
+						toDoArr[j] = new ToDo();
+					}			
+				}
+				
+			} catch (NumberFormatException e) {
+				System.out.println("번호를 입력해주세요.");
+				System.out.println();
+				i--;
+				continue;
 			}
 		}
 	}
@@ -141,68 +148,67 @@ public class ToDoFunction {
 	public void showLeftToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("┌──────────────────────────────────┐");
-		System.out.println("│        ◈ 남은 할 일 목록 ◈       │");
-		System.out.println("└──────────────────────────────────┘");
+		System.out.println("┌────────────────────────────────────────┐");
+		System.out.println("│           ◈ 남은 할 일 목록 ◈          │");
+		System.out.println("└────────────────────────────────────────┘");
 		System.out.println();
-		System.out.println("할 일 목록 : ");
-		for(int i = 0; i < listIndex; i++) { 
-			if(toDoArr[i].getIndex() == 0) { // 삭제되어 값이 없으면 출력하지 않고 넘어감
-				continue;
-			}
-//			System.out.println(toDoArr[i].getIndex() + ". " + toDoArr[i].getList() + "\t\t" + toDoArr[i].getDue() + "\t" + toDoArr[i].getToday());
-			System.out.printf("%d. %s%15s\tD-%d\n", toDoArr[i].getIndex(),toDoArr[i].getList(),toDoArr[i].getDue(),toDoArr[i].getdDay());
-		}
-		System.out.println();
-		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
-		System.out.println();
+		restToDo();
 	}
 
 	public void showDoneToDo() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("┌──────────────────────────────────┐");
-		System.out.println("│       ◈ 완료한 할 일 목록 ◈      │");
-		System.out.println("└──────────────────────────────────┘");
-		System.out.println();
-		System.out.println("초기화면으로 돌아가려면 * 를 입력해주세요.");
+		System.out.println("┌────────────────────────────────────────┐");
+		System.out.println("│          ◈ 완료한 할 일 목록 ◈         │");
+		System.out.println("└────────────────────────────────────────┘");
 		System.out.println();
 
 		for(int i = 0; i < doneIndex; i++) {
-//			System.out.println("▶ " + doneToDoArr[i].getIndex() + ". " + doneToDoArr[i].getList());	
 			System.out.printf("▶ %d. %s%15s\tD-%d\n", doneToDoArr[i].getIndex(),doneToDoArr[i].getList(),doneToDoArr[i].getDue(),doneToDoArr[i].getdDay());
 		}
 		System.out.println();
 	}
 
-	public void endProgram() {
+	public boolean endProgram() {
 		// TODO Auto-generated method stub
 		System.out.println();
-		System.out.println("┌──────────────────────────────────┐");
-		System.out.println("│           ◈ 종료하기 ◈           │");
-		System.out.println("└──────────────────────────────────┘");
+		System.out.println("┌────────────────────────────────────────┐");
+		System.out.println("│              ◈ 종료하기 ◈              │");
+		System.out.println("└────────────────────────────────────────┘");
 		while(true) {
 			System.out.println();
 			System.out.println("종료 시 목록이 초기화됩니다. 종료하시겠습니까? (Y/N)\n");
-			System.out.print("확인 : ");
+			System.out.print("▷▶ 확인 : ");
 			char endChoice = sc.next().charAt(0);
 			
 			if(endChoice == 'Y') {
 				System.out.println();
 				System.out.println("작동을 종료합니다.");
 				System.out.println();
-				return;
+				return true;
 			} else if(endChoice == 'N') {
 				System.out.println();
 				System.out.println("메뉴 선택 화면으로 돌아갑니다.");
 				System.out.println();
-				printMenu();
-				break; // 이거 이상함 수정하기
+				return false;
 			} else {
 				System.out.println();
 				System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
 			}			
 		}
+		
+	}
+	
+	// 남은 할 일 목록
+	public void restToDo() {
+		System.out.println("할 일 목록 : ");
+		for(int i = 0; i < listIndex; i++) { 
+			if(toDoArr[i].getIndex() == 0) { // 삭제되어 값이 없으면 출력하지 않고 넘어감
+				continue;
+			}
+			System.out.printf("%d. %-15s%10s\tD-%d\n", toDoArr[i].getIndex(),toDoArr[i].getList(),toDoArr[i].getDue(),toDoArr[i].getdDay());
+		}
+		System.out.println();
 	}
 
 }

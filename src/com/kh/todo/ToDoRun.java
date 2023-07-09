@@ -23,8 +23,10 @@ public class ToDoRun {
 						tdFunc.showDoneToDo();
 						break;
 					case 5:
-						tdFunc.endProgram();
-						break finish;
+						if(tdFunc.endProgram() == true)
+							break finish;
+						else
+							break;
 					default:
 						System.out.println("잘못 입력하셨습니다. (1 ~ 5 중 선택)");
 						System.out.println();
